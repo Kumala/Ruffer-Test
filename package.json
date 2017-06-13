@@ -1,0 +1,20 @@
+{
+  "name": "ruffer-test",
+  "version": "1.0.0",
+  "description": "Ruffer technical test for Javascript Automation",
+  "main": "index.js",
+  "dependencies": {
+    "wdio-junit-reporter": "^0.3.0",
+    "webdriverio": "^4.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "wdio-test"
+  },
+  "author": "Vijay Vedachalam",
+  "license": "MIT"
+}

@@ -1,9 +1,11 @@
 /**
  * Created by Vijay on 12/06/2017.
  */
-const assert = require('assert');
+var assert = require('chai').assert;
+var expect = require('chai').expect;
+
 var fs = require('fs');
-var Content,Lines,RowCount,ColValue,Count;
+var Content,Lines,RowCount,ColValue,Count,Check;
 var Data;
 
 /*** To get the number of records in the text file ***/
@@ -39,7 +41,7 @@ function getValue(Row,Column) {
 
 module.exports = function () {
     this.Given(/^I have the customer details$/, function () {
-        Content = fs.readFileSync('../txndetails.txt', 'utf8');
+        Content = fs.readFileSync('../../txndetails.txt', 'utf8');
         Lines = Content.split('\r\n');
         RowCount = getRow();
     });
@@ -51,31 +53,15 @@ module.exports = function () {
     this.Then(/^it should be a positive number$/, function () {
         /** Count starts from 1 as we need to skip the heading of the table       ***/
         for (Count = 1; Count < Lines; Count++) {
-            console.log(getValue(Count, ColValue)>0);
+            assert.isAbove(getValue(Count, ColValue),0,"The transaction ID is not correct");
         }
     });
 
-    Given('I have the customer details', function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback(null, 'pending');
-    });
-
-    When('I validate the transaction id', function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback(null, 'pending');
-    });
-
-    Then('it should be a positive number', function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback(null, 'pending');
-    });
-
-
     this.Then(/^it should not be a duplicate$/, function () {
         for (Count = 1; Count < Lines; Count++) {
-            for (check=2;check < Lines; check++){
-                if(getValue(Count, ColValue)===getValue(check,ColValue)) {
-                    console.log("Duplicate Transaction ID")
+            for (Check = 2;Check < Lines; Check++){
+                if(getValue(Count, ColValue)===getValue(Check,ColValue)) {
+                    assert.notStrictEqual(getValue(Count, ColValue), getValue(Check, ColValue), "Duplicate Tx ID");
                     break;
                 }
             }
@@ -88,7 +74,7 @@ module.exports = function () {
 
     this.Then(/^it should not be null$/, function () {
         for (Count = 1; Count < Lines; Count++) {
-            console.log(getValue(Count, ColValue).length>0);
+            expect(getValue(Count, ColValue)).to.be.a('string');
         }
     });
 
@@ -96,9 +82,10 @@ module.exports = function () {
         ColValue = 2;
     });
 
+    /** Tx amount is checked for at least 0, as discount coupons can be used to get the item for free  **/
     this.Then(/^it should be a positive number$/, function () {
         for (Count = 1; Count < Lines; Count++) {
-            console.log(getValue(Count, ColValue)>0);
+            assert.isAtLeast(getValue(Count, ColValue),0,"Transaction amount is not valid");
         }
     });
 
@@ -108,7 +95,7 @@ module.exports = function () {
 
     this.Then(/^it should not be null$/, function () {
         for (Count = 1; Count < Lines; Count++) {
-            console.log(getValue(Count, ColValue).length>0);
+            assert.isNotNull(getValue(Count, ColValue),"The product name is null");
         }
     });
 
@@ -118,14 +105,14 @@ module.exports = function () {
 
     this.Then(/^it should be a date$/, function () {
         for (Count = 1; Count < Lines; Count++) {
-            console.log(getValue(Count, ColValue) instanceof Date);
+            assert.isDate(getValue(Count, ColValue),"Invalid date");
         }
     });
 
     this.Then(/^it should not be in future$/, function () {
         for (Count = 1; Count < Lines; Count++) {
             var now = new Date();
-            console.log(getValue(Count, ColValue) < now);
+            expect(getValue(Count, ColValue)).to.be.beforeDate(now);
         }
     });
 

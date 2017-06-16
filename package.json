@@ -2,18 +2,22 @@
   "name": "ruffer-test",
   "version": "1.0.0",
   "description": "Ruffer technical test for Javascript Automation",
-  "main": "index.js",
+  "main": "customerValidation.js",
   "dependencies": {
+    "chai": "^4.0.2",
+    "chai-date": "^1.0.0",
+    "chai-datetime": "^1.4.1",
+    "cucumber-assert": "^2.0.0",
     "webdriverio": "^4.8.0",
     "webdriverio-cucumber-js": "^1.1.4"
   },
   "devDependencies": {
-    "cucumber": "^2.3.1",
+    "cucumber": "^1.3.3",
     "wdio-cucumber-framework": "^0.3.1",
     "wdio-junit-reporter": "^0.3.0"
   },
   "scripts": {
-    "test": "node node_modules/.bin/cucumber-js"
+    "test": "node customerValidation.js"
   },
   "repository": {
     "type": "git",

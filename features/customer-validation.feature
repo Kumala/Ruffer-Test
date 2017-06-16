@@ -11,7 +11,7 @@ Feature: Customer-validation
   Scenario: Validate Customer details - customer id
     Given I have the customer details
     When I validate the customer id
-    Then it should not be null
+    Then customer id should not be empty
 
   Scenario: Validate Customer details - transaction id duplication
     Given I have the customer details
@@ -21,17 +21,12 @@ Feature: Customer-validation
   Scenario: Validate Customer details - transaction amount is valid
     Given I have the customer details
     When I validate the transaction amount
-    Then it should be a positive number
+    Then it should be a valid amount
 
   Scenario: Validate Customer details - valid product
     Given I have the customer details
     When I validate the product
-    Then it should not be null
-
-  Scenario: Validate Customer details - valid date
-    Given I have the customer details
-    When I validate the datetime
-    Then it should be a date
+    Then product should not be empty
 
   Scenario: Validate Customer details - Not future date
     Given I have the customer details
